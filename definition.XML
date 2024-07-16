@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XMLの宣言 -->
+
+<!-- ============================================================================= 
+  基本情報を登録 
+============================================================================== -->
+<SolverDefinition
+  name="Sample_Solver"
+  caption="Sample Solver"
+  version="1.0.24071601"
+  copyright="Keita Hoshino"
+  release="2024.07.16"
+  homepage="https://iric-solver-dev-manual.readthedocs.io/ja/v4_jp/05_about_definition_file.html"
+  executable="SampleSolver.exe"
+  gridtype="structured2d"
+>
+
+  <!-- ============================================================================= 
+    計算条件の定義
+  ============================================================================== -->
+  <CalculationCondition>
+
+    <!-- ============================================================================= 
+      ラベル
+    ============================================================================== -->
+
+    <!-- 
+    Labelを使用することで計算条件ダイアログに文章を記入できる
+    文字参照、実体参照を使用して改行したり、HTMLタグを使用することもできます。
+    XML内で改行して入力する場合、日本語訳をする際にうまくいかないので&#xa;を使用するのがおすすめ
+    -->
+    <Tab name="Label_1" caption="Label_1">
+      <Label caption="hogehoge&#xa;hogehogehoge"/>
+      <Label caption="hogehoge&lt;br&gt;hogehogehoge"/>
+      <Label caption="hogehoge
+hogehogehoge"/>
+    </Tab>
+
+    <!-- HTMLタグを使用した例 -->
+    <!-- XML内では"<"や">"を使用できないので、実体参照で"&lt;"や"&gt;"を使用する -->
+    <Tab name="Label_2" caption="Label_2">
+
+      <Label caption="&lt;h1&gt;heading1&lt;/h1&gt;" />
+      <Label caption="&lt;h2&gt;heading2&lt;/h2&gt;" />
+      <Label caption="&lt;h3&gt;heading3&lt;/h3&gt;" />
+      <Label caption="&lt;h4&gt;heading4&lt;/h4&gt;" />
+      <Label caption="&lt;h4&gt;heading5&lt;/h5&gt;" />
+      <Label caption="&lt;h4&gt;heading6&lt;/h6&gt;" />
+
+      <Label caption="
+      &lt;h1&gt;heading1&lt;/h1&gt;
+      &lt;p&gt;This is the first line.&lt;br&gt;This is the second line.&lt;/p&gt;
+      &lt;h2&gt;heading2&lt;/h2&gt;
+      &lt;p&gt;This is the first line.&lt;br&gt;This is the second line.&lt;/p&gt;
+      " />
+
+      <Label caption="&lt;b&gt;Bold&lt;/b&gt;" />
+      <Label caption="&lt;i&gt;Italic&lt;/i&gt;" />
+      <Label caption="&lt;font size=&quot;5&quot; color=&quot;#FF0000&quot;&gt;&lt;i&gt;&lt;b&gt;Italic Bold color red size 5&lt;/b&gt;&lt;/i&gt;&lt;/font&gt;" />
+    </Tab>
+
+    <!-- CSSを使用した例 -->
+    <Tab name="Label_3" caption="Label_3">
+
+      <!-- 直接定義 -->
+      <Label caption="
+      &lt;p style=&quot;font-size:40px;&quot;&gt;
+        big font
+      &lt;/p&gt;
+      " />
+
+      <!-- ヘッドで定義して全体に適用 -->
+      <!-- ※ただし範囲は一つのLabel内のみでラベルを跨いで適用はできない -->
+      <Label caption="
+      &lt;head&gt;
+        &lt;style&gt;
+        test {
+          font-size:40px;
+          font-style:italic;
+          font-weight: 800;
+          color: #ff0000;
+        }
+        &lt;/style&gt;
+      &lt;/head&gt;
+      
+      &lt;test&gt;
+      head test
+      &lt;/test&gt;
+
+      &lt;br&gt;
+
+      &lt;a href= &quot;https://i-ric.org/&quot; target=&quot;_blank&quot;&gt;
+      https://i-ric.org/
+      &lt;/a&gt;
+
+      " />
+
+    </Tab>
+
+    <!-- ============================================================================= 
+      格子生成条件の種類
+    ============================================================================== -->
+    <Tab name="element_type" caption="Type of element">          
+      
+      <!--文字列-->
+      <Item name="Sample_string" caption="string">
+        <Definition valueType="string" />
+      </Item>
+
+      <!--整数-->
+      <Item name="Sample_integer" caption="integer">
+        <Definition valueType="integer" default="20" min="1" max="99999999" />
+      </Item>
+
+      <!--整数(チェックボックス)-->
+      <!-- Definition要素のcheckBox属性をtrueにすることで設定 -->
+      <Item name="Sample_integer_checkBox" caption="integer(checkBox)">
+        <Definition valueType="integer" default="0" checkBox="true" />
+      </Item>
+
+      <!--整数(選択式)-->
+      <Item name="Sample_integer_selective" caption="integer(selective)">
+        <Definition valueType="integer" default="0">
+          <Enumeration value="0" caption="0.Sunday"/>
+          <Enumeration value="1" caption="1.Monday"/>
+          <Enumeration value="2" caption="2.Tuesday"/>
+          <Enumeration value="3" caption="3.Wednesday"/>
+          <Enumeration value="4" caption="4.Thursday"/>
+          <Enumeration value="5" caption="5.Friday"/>
+          <Enumeration value="6" caption="6.Saturday"/>
+        </Definition>
+      </Item>
+
+      <!--実数-->
+      <Item name="Sample_real" caption="real">
+        <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+      </Item>
+
+      <!--関数型-->
+      <Item name="Sample_functional" caption="functional">
+        <Definition valueType="functional" >
+          <Parameter valueType="real" caption="X-axis" />
+          <Value valueType="real" caption="Y-axis" />
+        </Definition>
+      </Item>
+
+      <!--関数型（複数）-->
+      <Item name="Sample_functional_multiple" caption="functional multiple">
+        <Definition valueType="functional" >
+          <Parameter name="X-axis" valueType="real" caption="X-axis" />
+          <Value name="Yaxis_1" valueType="real" caption="Y-axis1" />
+          <Value name="Yaxis_2" valueType="real" caption="Y-axis2" />
+        </Definition>
+      </Item>
+
+      <!-- 複合型 -->
+      <Item name="Sample_complex" caption="Complex">
+        <!-- valueTypeは"complex"とする -->
+        <Definition valueType="complex">
+
+          <!-- 複合型の項目の中に値を設定していく -->
+          <Item name="Sample_string_complex" caption="string">
+            <Definition valueType="string" />
+          </Item>
+          <Item name="Sample_integer_complex" caption="integer">
+            <Definition valueType="integer" default="20" min="1" max="99999999" />
+          </Item>
+          <Item name="Sample_integer_checkBox_complex" caption="integer(checkBox)">
+            <Definition valueType="integer" default="0" checkBox="true" />
+          </Item>
+          <Item name="Sample_integer_selective_complex" caption="integer(selective)">
+            <Definition valueType="integer" default="0">
+              <Enumeration value="0" caption="0.Sunday"/>
+              <Enumeration value="1" caption="1.Monday"/>
+              <Enumeration value="2" caption="2.Tuesday"/>
+              <Enumeration value="3" caption="3.Wednesday"/>
+              <Enumeration value="4" caption="4.Thursday"/>
+              <Enumeration value="5" caption="5.Friday"/>
+              <Enumeration value="6" caption="6.Saturday"/>
+            </Definition>
+          </Item>
+          <Item name="Sample_real_complex" caption="real">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+          <Item name="Sample_functional_complex" caption="functional">
+            <Definition valueType="functional" >
+              <Parameter valueType="real" caption="X-axis" />
+              <Value valueType="real" caption="Y-axis" />
+            </Definition>
+          </Item>
+
+        </Definition>
+      </Item>
+
+      <!--ファイル名-->
+      <Item name="Sample_filename_in" caption="input Flow data file">
+        <Definition valueType="filename" default="flow.dat" />
+      </Item>
+
+      <!--ファイル名(存在しないファイルも選択可能)-->
+      <Item name="Sample_filename_out" caption="output Flow data file">
+        <Definition valueType="filename_all" default="flow.dat" />
+      </Item>
+
+      <!--フォルダ名-->
+      <Item name="Sample_foldername" caption="Flow data folder">
+        <Definition valueType="foldername" />
+      </Item>
+
+      <!--CGNSファイル名等-->
+      <!-- 
+      DefinitionでvalueType="cgns_filename"とするとCGNSファイルを対象に選択することができる。
+      ソルバー起動時に選択するソルバーを聞かれる。
+      -->
+      <Item name="input_file" caption="CGNS file for input" >
+        <Definition valueType="cgns_filename" default="Case1.cgn"/>
+      </Item>
+
+      <!-- 整数の計算結果（格子点） -->
+      <Item name="result_to_read_int_node" caption="Calculation result to read(int-node)">
+        <Definition valueType="result_gridNodeInteger" cgnsFile="input_file" />
+      </Item>
+
+      <!-- 実数の計算結果（格子点） -->
+      <Item name="result_to_read_real_node" caption="Calculation result to read(real-node)">
+        <Definition valueType="result_gridNodeReal" cgnsFile="input_file" />
+      </Item>
+
+      <!-- 整数の計算結果（セル） -->
+      <Item name="result_to_read_int_cell" caption="Calculation result to read(int-cell)">
+        <Definition valueType="result_gridCellInteger" cgnsFile="input_file" />
+      </Item>
+
+      <!-- 実数の計算結果（セル） -->
+      <Item name="result_to_read_real_cell" caption="Calculation result to read(real-cell)">
+        <Definition valueType="result_gridCellReal" cgnsFile="input_file" />
+      </Item>
+
+      <!-- 整数の計算結果（Iエッジ） -->
+      <Item name="result_to_read_int_EdgeI" caption="Calculation result to read(int-EdgeI)">
+        <Definition valueType="result_gridEdgeIInteger" cgnsFile="input_file" />
+      </Item>
+
+      <!-- 実数の計算結果（Iエッジ） -->
+      <Item name="result_to_read_real_EdgeI" caption="Calculation result to read(real-EdgeI)">
+        <Definition valueType="result_gridEdgeIReal" cgnsFile="input_file" />
+      </Item>
+
+      <!-- 整数の計算結果（Jエッジ） -->
+      <Item name="result_to_read_int_EdgeJ" caption="Calculation result to read(int-EdgeJ)">
+        <Definition valueType="result_gridEdgeJInteger" cgnsFile="input_file" />
+      </Item>
+
+      <!-- 実数の計算結果（Jエッジ） -->
+      <Item name="result_to_read_real_EdgeJ" caption="Calculation result to read(real-EdgeJ)">
+        <Definition valueType="result_gridEdgeJReal" cgnsFile="input_file" />
+      </Item>
+
+      <!-- 整数の計算結果（グローバル） -->
+      <Item name="result_to_read_int_global" caption="Calculation result to read(int-global)">
+        <Definition valueType="result_baseIterativeInteger" cgnsFile="input_file" />
+      </Item>
+
+      <!-- 実数の計算結果（グローバル） -->
+      <Item name="result_to_read_real_global" caption="Calculation result to read(real-global)">
+        <Definition valueType="result_baseIterativeReal" cgnsFile="input_file" />
+      </Item>
+      
+    </Tab>
+
+    <!-- ============================================================================= 
+      レイアウト例
+      ・グループボックスの中にグループボックスを重ねる事も可能
+    ============================================================================== -->
+    <!-- Tabでグループを作成 -->
+    <Tab name="GroupBox example" caption="GroupBox">
+      
+      <!-- 単純なレイアウト -->
+      <Item name="element1" caption="element1">
+        <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+      </Item>
+
+      <!-- グループボックスをつかったレイアウト -->
+      <GroupBox caption="GroupBox1">
+
+        <Item name="element2" caption="element2">
+          <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+        </Item>
+
+        <GroupBox caption="GroupBox1-1">
+          <Item name="element3" caption="element3">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+        </GroupBox>
+
+        <GroupBox caption="GroupBox1-2">
+
+          <Item name="element4" caption="element4">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+
+          <GroupBox caption="GroupBox1-2-1">
+          
+            <Item name="element5" caption="element5">
+              <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+            </Item>
+
+            <GroupBox caption="GroupBox1-2-1-1">
+          
+              <Item name="element6" caption="element6">
+                <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+              </Item>
+
+            </GroupBox>
+
+          </GroupBox>
+
+        </GroupBox>
+
+      </GroupBox>
+
+    </Tab>
+
+    <!-- 自由なレイアウト -->
+    <Tab name="GridLayout example1" caption="GridLayout1">
+
+      <GroupBox caption="GroupBox1">
+      
+        <GridLayout>
+
+          <Label row="0" col="1" caption="case1" />
+          <Label row="0" col="2" caption="case2" />
+          <Label row="0" col="3" caption="case3" />
+
+          <Label row="1" col="0" caption="element7_1" />
+          <Label row="2" col="0" caption="element7_2" />
+          <Label row="3" col="0" caption="element7_3" />
+
+          <Item row="1" col="1" name="element7_1_1">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+          <Item row="1" col="2" name="element7_1_2">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+          <Item row="1" col="3" name="element7_1_3">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+          <Item row="2" col="1" name="element7_2_1">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+          <Item row="2" col="2" name="element7_2_2">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+          <Item row="2" col="3" name="element7_2_3">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+          <Item row="3" col="1" name="element7_3_1">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+          <Item row="3" col="2" name="element7_3_2">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+          <Item row="3" col="3" name="element7_3_3">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+
+        </GridLayout>
+
+      </GroupBox>
+    
+    </Tab>
+
+    <Tab name="GridLayout example2" caption="GridLayout2">
+
+      <GridLayout>
+        <GroupBox row="0" col="0" caption="GroupBox1_1">
+          <Item name="element8" caption="element8">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+        </GroupBox>
+        <GroupBox row="0" col="1" caption="GroupBox1_2">
+          <Item name="element9_1" caption="element9_1">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+          <Item name="element9_2" caption="element9_2">
+            <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+          </Item>
+        </GroupBox>
+        <GroupBox row="0" col="2" caption="GroupBox1_3">
+          <HBoxLayout>
+            <Label col="0" caption="element10_1" />
+            <Item col="1" name="element10_1">
+              <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+            </Item>
+            <Label col="2" caption="element10_2" />
+            <Item col="3" name="element10_2">
+              <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+            </Item>
+          </HBoxLayout>
+        </GroupBox>
+      </GridLayout>
+
+      <GroupBox caption="GroupBox2">
+        <GridLayout>
+          <GroupBox row="0" col="0" caption="GroupBox2_1_1">
+            <Item name="element11_1" caption="element11_1">
+              <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+            </Item>
+          </GroupBox>
+          <GroupBox row="0" col="1" caption="GroupBox2_1_2">
+            <Item name="element11_2" caption="element11_2">
+              <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+            </Item>
+          </GroupBox>
+          <GroupBox row="1" col="0" caption="GroupBox2_2_1">
+            <Item name="element11_3" caption="element11_3">
+              <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+            </Item>
+          </GroupBox>
+          <GroupBox row="1" col="1" caption="GroupBox2_2_2">
+            <Item name="element11_4" caption="element11_4">
+              <Definition valueType="real" default="1.0" min="1.0" max="99999999" />
+            </Item>
+          </GroupBox>
+        </GridLayout>
+      </GroupBox>
+    </Tab>
+
+    <!-- ============================================================================= 
+      画像の表示　画像ファイルはdefinition.xmlと同じフォルダヘ
+    ============================================================================== -->
+    <Tab name="image" caption="image">
+      <Image src="iric.png" />
+      <Image src="iric.gif" />
+    </Tab>
+
+    <!-- ============================================================================= 
+      格子生成条件の入力条件編集可否
+    ============================================================================== -->
+    <Tab name="Condition" caption="Condition">
+
+      <Label caption="Case1 他の条件に応じて編集の可否を設定する。" />
+
+      <GroupBox caption="Case1_1">
+      
+        <Item name="Condition_a_1" caption="Condition_a_1">
+          <Definition valueType="integer" default="0" checkBox="true" />
+        </Item>
+
+        <Item name="element12_1" caption="element12_1">
+          <Definition valueType="integer" default="0">
+            <Condition type="isEqual" target="Condition_a_1" value="1" />
+          </Definition>
+        </Item>
+        <Item name="element12_2" caption="element12_2">
+          <Definition valueType="integer" default="0">
+            <Condition type="isEqual" target="Condition_a_1" value="1" />
+            <Action type="enable" />
+          </Definition>
+        </Item>
+
+      </GroupBox>
+
+      <Label caption="Case1_2 複数の他の条件に応じて編集の可否を設定する。" />
+
+      <GroupBox caption="Case1_2">
+      
+        <Item name="Condition_a_2" caption="Condition_a_2">
+          <Definition valueType="integer" default="0" checkBox="true" />
+        </Item>
+        <Item name="Condition_a_3" caption="Condition_a_3">
+          <Definition valueType="integer" default="0" checkBox="true" />
+        </Item>
+
+        <Item name="element13" caption="element13">
+          <Definition valueType="integer" default="0">
+            <Condition type="and">
+              <Condition type="isEqual" target="Condition_a_2" value="1" />
+              <Condition type="isEqual" target="Condition_a_3" value="1" />
+            </Condition>
+          </Definition>
+        </Item>
+
+      </GroupBox>
+
+      <Label caption="Case2 他の条件に応じて値を変更する。" />
+
+      <GroupBox caption="Case2">
+      
+        <Item name="Condition_b" caption="Condition_a">
+          <Definition valueType="integer" default="0" checkBox="true" />
+        </Item>
+
+        <Item name="element14" caption="element14">
+          <Definition valueType="integer" default="0">
+            <Condition type="isEqual" target="Condition_b" value="0" />
+            <Action type="setValue" value="0" />
+            <Condition type="isEqual" target="Condition_b" value="1" />
+            <Action type="setValue" value="9999" />
+          </Definition>
+        </Item>
+        
+      </GroupBox>
+
+      <Label caption="Case3 他の条件に応じて選択肢を変更する。" />
+
+      <GroupBox caption="Case2">
+      
+        <Item name="Condition_c" caption="Condition_c">
+          <Definition valueType="integer" default="0">
+            <Enumeration value="0" caption="fruit"/>
+            <Enumeration value="1" caption="vegetable"/>
+          </Definition>
+        </Item>
+
+        <Item name="element15" caption="element15">
+          <Definition valueType="integer">
+            <Enumerations>
+              <Enumeration value="0" caption="strawberry"/>
+              <Enumeration value="1" caption="peach"/>
+              <Enumeration value="2" caption="persimmon"/>
+              <Enumeration value="3" caption="radish"/>
+              <Enumeration value="4" caption="potato"/>
+              <Enumeration value="5" caption="Cucumber"/>
+              <SubEnumerations>
+                <Enumeration value="0" caption="strawberry"/>
+                <Enumeration value="1" caption="peach"/>
+                <Enumeration value="2" caption="persimmon"/>
+                <Condition type="isEqual" target="Condition_c" value="0"/>
+              </SubEnumerations>
+              <SubEnumerations>
+                <Enumeration value="3" caption="radish"/>
+                <Enumeration value="4" caption="potato"/>
+                <Enumeration value="5" caption="Cucumber"/>
+                <Condition type="isEqual" target="Condition_c" value="1"/>
+              </SubEnumerations>
+            </Enumerations>
+          </Definition>
+        </Item>
+        
+      </GroupBox>
+
+    </Tab>
+
+  </CalculationCondition>
+
+  <GridRelatedCondition>
+
+    <!-- ============================================================================= 
+      計算格子属性の定義
+    ============================================================================== -->
+    
+    <Item name="condition_n_r" caption="node(real)">
+      <Definition valueType="real" position="node" default="max" />
+    </Item>
+    <Item name="condition_n_i" caption="node(integer)">
+      <Definition valueType="integer" position="node" default="max" />
+    </Item>
+    <Item name="condition_n_c" caption="node(complex)">
+      <Definition valueType="complex" position="node">
+        <Item name="condition_n_c_r" caption="node(complex) value(real)">
+          <Definition valueType="real" default="0" />
+        </Item>
+        <Item name="condition_n_c_i" caption="node(complex) value(integer)">
+          <Definition valueType="real" default="0" />
+        </Item>
+      </Definition>
+    </Item>
+    <Item name="condition_c_r" caption="cell(real)">
+      <Definition valueType="real" position="cell" default="max" />
+    </Item>
+    <Item name="condition_c_i" caption="cell(integer)">
+      <Definition valueType="integer" position="cell" default="max" />
+    </Item>
+    <Item name="condition_c_c" caption="cell(complex)">
+      <Definition valueType="complex" position="cell">
+        <Item name="condition_c_c_r" caption="cell(complex) value(real)">
+          <Definition valueType="real" default="0" />
+        </Item>
+        <Item name="condition_c_c_i" caption="cell(complex) value(integer)">
+          <Definition valueType="real" default="0" />
+        </Item>
+      </Definition>
+    </Item>
+    <Item name="condition_ie_r" caption="iedge(real)">
+      <Definition valueType="real" position="iface" default="max" />
+    </Item>
+    <Item name="condition_ie_i" caption="iedge(integer)">
+      <Definition valueType="integer" position="iface" default="max" />
+    </Item>
+    <Item name="condition_ie_c" caption="iedge(complex)">
+      <Definition valueType="complex" position="iface">
+        <Item name="condition_ie_c_r" caption="iedge(complex) value(real)">
+          <Definition valueType="real" default="0" />
+        </Item>
+        <Item name="condition_ie_c_i" caption="iedge(complex) value(integer)">
+          <Definition valueType="real" default="0" />
+        </Item>
+      </Definition>
+    </Item>
+    <Item name="condition_je_r" caption="jedge(real)">
+      <Definition valueType="real" position="jface" default="max" />
+    </Item>
+    <Item name="condition_je_i" caption="jedge(integer)">
+      <Definition valueType="integer" position="jface" default="max" />
+    </Item>
+    <Item name="condition_je_c" caption="jedge(complex)">
+      <Definition valueType="complex" position="jface">
+        <Item name="condition_je_c_r" caption="jedge(complex) value(real)">
+          <Definition valueType="real" default="0" />
+        </Item>
+        <Item name="condition_je_c_i" caption="jedge(complex) value(integer)">
+          <Definition valueType="real" default="0" />
+        </Item>
+      </Definition>
+    </Item>
+  </GridRelatedCondition>
+
+  <!-- ============================================================================= 
+    境界条件の定義
+  ============================================================================== -->
+  <BoundaryCondition name="BoundaryCondition_node" caption="BoundaryCondition_node" position="node">
+		<Item name="BC_node_parameter_string" caption="BC_node_parameter_string">
+			<Definition valueType="string">
+			</Definition>
+		</Item>
+		<Item name="BC_node_parameter_integer" caption="BC_node_parameter_integer">
+			<Definition valueType="integer" default="0">
+			</Definition>
+		</Item>
+		<Item name="BC_node_parameter_real" caption="BC_node_parameter_real">
+			<Definition valueType="real" default="0.001">
+			</Definition>
+		</Item>
+    <Item name="BC_node_parameter_functional" caption="BC_node_parameter_functional">
+      <Definition valueType="functional" >
+        <Parameter valueType="real" caption="X-axis" />
+        <Value valueType="real" caption="Y-axis" />
+      </Definition>
+    </Item>
+	</BoundaryCondition>
+	
+  <BoundaryCondition name="BoundaryCondition_cell" caption="BoundaryCondition_cell" position="cell">
+		<Item name="BC_cell_parameter_string" caption="BC_cell_parameter_string">
+			<Definition valueType="string">
+			</Definition>
+		</Item>
+		<Item name="BC_cell_parameter_integer" caption="BC_cell_parameter_integer">
+			<Definition valueType="integer" default="0">
+			</Definition>
+		</Item>
+		<Item name="BC_cell_parameter_real" caption="BC_cell_parameter_real">
+			<Definition valueType="real" default="0.001">
+			</Definition>
+		</Item>
+    <Item name="BC_cell_parameter_functional" caption="BC_cell_parameter_functional">
+      <Definition valueType="functional" >
+        <Parameter valueType="real" caption="X-axis" />
+        <Value valueType="real" caption="Y-axis" />
+      </Definition>
+    </Item>
+	</BoundaryCondition>
+  
+  <BoundaryCondition name="BoundaryCondition_edge" caption="BoundaryCondition(edge)" position="edge">
+		<Item name="BC_edge_parameter_string" caption="BC_edge_parameter_string">
+			<Definition valueType="string">
+			</Definition>
+		</Item>
+		<Item name="BC_edge_parameter_integer" caption="BC_edge_parameter_integer">
+			<Definition valueType="integer" default="0">
+			</Definition>
+		</Item>
+		<Item name="BC_edge_parameter_real" caption="BC_edge_parameter_real">
+			<Definition valueType="real" default="0.001">
+			</Definition>
+		</Item>
+    <Item name="BC_edge_parameter_functional" caption="BC_edge_parameter_functional">
+      <Definition valueType="functional" >
+        <Parameter valueType="real" caption="X-axis" />
+        <Value valueType="real" caption="Y-axis" />
+      </Definition>
+    </Item>
+	</BoundaryCondition>
+
+</SolverDefinition>
