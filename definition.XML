@@ -30,15 +30,39 @@
     XML内で改行して入力する場合、日本語訳をする際にうまくいかないので&#xa;を使用するのがおすすめ
     -->
     <Tab name="Label_1" caption="Label_1">
+
+    <GroupBox caption="line break">
       <Label caption="hogehoge&#xa;hogehogehoge"/>
       <Label caption="hogehoge&lt;br&gt;hogehogehoge"/>
       <Label caption="hogehoge
 hogehogehoge"/>
+    </GroupBox>
+
+    <!-- 
+    XMLで使用できない文字は文字参照か実体参照を使用する。
+    文字参照は"&"で始まり";"で終わる。
+    アンパサンド &amp;
+    小なり &lt;
+    大なり &gt;
+    ダブルクオーテーション &quot;
+    シングルクォーテーション &apos;
+    実体参照では10進数、16進数での参照方法がある。
+      10進数参照, 16進数参照
+    アンパサンド &#38;, &#x26;
+    小なり &#60;, &#x3C;
+    大なり &#62;, &#x3E;
+    ダブルクオーテーション &#34;, &#x22;
+    シングルクォーテーション &#39;, &#x27;
+    -->
+    <GroupBox caption="escape sequence">
+      <Label caption="The characters &amp;, &lt;,&gt;,&quot; and &apos; cannot be used in XML&#xa; and must be replaced with character references or entity references." />
+    </GroupBox>  
+
     </Tab>
 
     <!-- HTMLタグを使用した例 -->
     <!-- XML内では"<"や">"を使用できないので、実体参照で"&lt;"や"&gt;"を使用する -->
-    <Tab name="Label_2" caption="Label_2">
+    <Tab name="Label_2" caption="Label (HTML)">
 
       <Label caption="&lt;h1&gt;heading1&lt;/h1&gt;" />
       <Label caption="&lt;h2&gt;heading2&lt;/h2&gt;" />
@@ -47,12 +71,7 @@ hogehogehoge"/>
       <Label caption="&lt;h4&gt;heading5&lt;/h5&gt;" />
       <Label caption="&lt;h4&gt;heading6&lt;/h6&gt;" />
 
-      <Label caption="
-      &lt;h1&gt;heading1&lt;/h1&gt;
-      &lt;p&gt;This is the first line.&lt;br&gt;This is the second line.&lt;/p&gt;
-      &lt;h2&gt;heading2&lt;/h2&gt;
-      &lt;p&gt;This is the first line.&lt;br&gt;This is the second line.&lt;/p&gt;
-      " />
+      <Label caption="&lt;h1&gt;heading1&lt;/h1&gt;&lt;p&gt;This is the first line.&lt;br&gt;This is the second line.&lt;/p&gt;&lt;h2&gt;heading2&lt;/h2&gt;&lt;p&gt;This is the first line.&lt;br&gt;This is the second line.&lt;/p&gt;" />
 
       <Label caption="&lt;b&gt;Bold&lt;/b&gt;" />
       <Label caption="&lt;i&gt;Italic&lt;/i&gt;" />
@@ -60,17 +79,14 @@ hogehogehoge"/>
     </Tab>
 
     <!-- CSSを使用した例 -->
-    <Tab name="Label_3" caption="Label_3">
+    <Tab name="Label_3" caption="Label (CSS)">
 
       <!-- 直接定義 -->
-      <Label caption="
-      &lt;p style=&quot;font-size:40px;&quot;&gt;
-        big font
-      &lt;/p&gt;
-      " />
+      <Label caption="&lt;p style=&quot;font-size:40px;&quot;&gt;big font&lt;/p&gt;" />
 
       <!-- ヘッドで定義して全体に適用 -->
       <!-- ※ただし範囲は一つのLabel内のみでラベルを跨いで適用はできない -->
+      <!-- ※うまく日本語化できない -->
       <Label caption="
       &lt;head&gt;
         &lt;style&gt;
@@ -98,18 +114,18 @@ hogehogehoge"/>
     </Tab>
 
     <!-- ============================================================================= 
-      格子生成条件の種類
+      計算条件の種類
     ============================================================================== -->
     <Tab name="element_type" caption="Type of element">          
       
       <!--文字列-->
       <Item name="Sample_string" caption="string">
-        <Definition valueType="string" />
+        <Definition valueType="string"/>
       </Item>
 
       <!--整数-->
       <Item name="Sample_integer" caption="integer">
-        <Definition valueType="integer" default="20" min="1" max="99999999" />
+        <Definition valueType="integer" default="20" min="1" max="99999999"/>
       </Item>
 
       <!--整数(チェックボックス)-->
@@ -439,7 +455,7 @@ hogehogehoge"/>
     ============================================================================== -->
     <Tab name="Condition" caption="Condition">
 
-      <Label caption="Case1 他の条件に応じて編集の可否を設定する。" />
+      <Label caption="Case1 Set editability according to other conditions." />
 
       <GroupBox caption="Case1_1">
       
@@ -461,7 +477,7 @@ hogehogehoge"/>
 
       </GroupBox>
 
-      <Label caption="Case1_2 複数の他の条件に応じて編集の可否を設定する。" />
+      <Label caption="Case1_2 Set editability according to multiple other conditions." />
 
       <GroupBox caption="Case1_2">
       
@@ -483,7 +499,7 @@ hogehogehoge"/>
 
       </GroupBox>
 
-      <Label caption="Case2 他の条件に応じて値を変更する。" />
+      <Label caption="Case2 Change value according to other conditions." />
 
       <GroupBox caption="Case2">
       
@@ -502,7 +518,7 @@ hogehogehoge"/>
         
       </GroupBox>
 
-      <Label caption="Case3 他の条件に応じて選択肢を変更する。" />
+      <Label caption="Case3 Change options according to other conditions." />
 
       <GroupBox caption="Case2">
       
@@ -539,6 +555,18 @@ hogehogehoge"/>
         </Item>
         
       </GroupBox>
+
+    </Tab>
+
+    <!-- ============================================================================= 
+      tooltipの設定
+      計算条件などのItem要素のdefinition要素にtooltips属性を追加することで、ツールチップを設定できる。
+    ============================================================================== -->
+    <Tab name="tooltips" caption="tooltips">
+
+      <Item name="element16" caption="tooltips">
+        <Definition valueType="real" default="1.0" min="1.0" max="99999999" tooltips="Enter the content of the tooltips here."/>
+      </Item>
 
     </Tab>
 
