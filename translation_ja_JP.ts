@@ -91,54 +91,6 @@ hogehogehoge</source>
             <translation>&lt;p style=&quot;font-size:40px;&quot;&gt;大きなフォント&lt;/p&gt;</translation>
         </message>
         <message>
-            <source>
-      &lt;head&gt;
-        &lt;style&gt;
-        test {
-          font-size:40px;
-          font-style:italic;
-          font-weight: 800;
-          color: #ff0000;
-        }
-        &lt;/style&gt;
-      &lt;/head&gt;
-      
-      &lt;test&gt;
-      head test
-      &lt;/test&gt;
-
-      &lt;br&gt;
-
-      &lt;a href= &quot;https://i-ric.org/&quot; target=&quot;_blank&quot;&gt;
-      https://i-ric.org/
-      &lt;/a&gt;
-
-      </source>
-            <translation>
-      &lt;head&gt;
-        &lt;style&gt;
-        test {
-          font-size:40px;
-          font-style:italic;
-          font-weight: 800;
-          color: #ff0000;
-        }
-        &lt;/style&gt;
-      &lt;/head&gt;
-      
-      &lt;test&gt;
-      見出しのテスト
-      &lt;/test&gt;
-
-      &lt;br&gt;
-
-      &lt;a href= &quot;https://i-ric.org/&quot; target=&quot;_blank&quot;&gt;
-      https://i-ric.org/
-      &lt;/a&gt;
-
-      </translation>
-        </message>
-        <message>
             <source>Type of element</source>
             <translation>要素の種類</translation>
         </message>
